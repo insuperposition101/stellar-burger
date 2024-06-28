@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from '../../services/store';
 import { getFeedOrders, getUserOrders } from '../../services/feedSlice';
 
 export const ProfileOrders: FC = () => {
-  /** TODO: взять переменную из стора */
+  /** взять переменную из стора */
 
   const dispatch = useDispatch();
 

@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getFeedsApi } from '../utils/burger-api';
 import { TOrder } from '@utils-types';
 
-import { getOrdersApi } from '@api';
+import { getOrdersApi, getFeedsApi } from '@api';
 
 export const getUserOrders = createAsyncThunk('orders/ofUser', getOrdersApi);
 export const getFeeds = createAsyncThunk('orders/getAll', getFeedsApi);
@@ -52,13 +51,6 @@ export const feedSlice = createSlice({
       .addCase(getUserOrders.rejected, (state) => {
         state.isLoading = false;
       });
-    //   .addCase(getOrderByNumber.pending, (state) => {
-    //     state.isLoading = true;
-    //   })
-    //   .addCase(getOrderByNumber.fulfilled, (state, action) => {
-    //     state.previewOrder = action.payload[0];
-    //     state.isLoading = false;
-    //   });
   }
 });
 
