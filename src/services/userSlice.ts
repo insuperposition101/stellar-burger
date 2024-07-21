@@ -23,7 +23,7 @@ export interface TUserState {
   error: string | undefined;
 }
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   isAuthChecked: false,
   user: {
     email: '',
@@ -107,3 +107,4 @@ export const userSlice = createSlice({
 
 export const { isAuthCheckedSelector, getUser, getName, getError } =
   userSlice.selectors;
+export const userReducer = userSlice.reducer;
