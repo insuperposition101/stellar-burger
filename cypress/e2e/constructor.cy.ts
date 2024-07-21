@@ -13,7 +13,7 @@ beforeEach(() => {
     fixture: 'user.json'
   });
 
-  cy.visit('http://localhost:4000');
+  cy.visit('/');
 });
 
 describe('Добавление ингредиента в конструктор', () => {
@@ -52,7 +52,7 @@ describe('Создание заказа', () => {
   beforeEach(() => {
     cy.intercept('POST', `api/orders`, {
       fixture: 'orders.json'
-    });
+    }).as('createOrder');
 
     window.localStorage.setItem('refreshToken', '123');
     cy.setCookie('accessToken', 'abc');
@@ -69,6 +69,26 @@ describe('Создание заказа', () => {
     cy.get(constructor).contains('Соус Spicy-X');
 
     cy.get('[data-cy=order-button]').click();
+    cy.wait('@createOrder').then((interception) => {
+      expect(interception.response?.statusCode).to.eq(200);
+      expect(interception.response?.body).to.have.property('success', true);
+      expect(interception.response?.body.order).to.have.property(
+        '_id',
+        '66967fcf119d45001b4f93b2'
+      );
+      expect(interception.response?.body.order).to.have.property(
+        'status',
+        'done'
+      );
+      expect(interception.response?.body.order).to.have.property(
+        'name',
+        'Астероидный флюоресцентный антарианский бургер'
+      );
+      expect(interception.response?.body.order).to.have.property(
+        'number',
+        45904
+      );
+    });
 
     cy.get(modal).should('exist');
     cy.get(modal).contains(orderData.order.number);
